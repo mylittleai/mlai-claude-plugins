@@ -1,0 +1,22 @@
+{
+  "name": "claude-plugins",
+  "description": "MyLittle.AI Claude Code plugins",
+  "owner": {
+    "name": "MyLittle.AI",
+    "email": "rens@mylittle.ai"
+  },
+  "plugins": [
+    {
+      "name": "mtplan",
+      "description": "Multiturn plan and state management. Two-File Program Counter pattern for coherent state across sessions and context compactions.",
+      "version": "0.1.0-alpha.2",
+      "author": {
+        "name": "Rens Troost",
+        "email": "rens@mylittle.ai"
+      },
+      "source": "./plugins/mtplan",
+      "homepage": "https://mylittle.ai",
+      "category": "development"
+    }
+  ]
+}

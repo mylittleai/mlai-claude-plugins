@@ -12,10 +12,10 @@ A curated collection of Claude Code plugins by [MyLittle.AI](https://mylittle.ai
 
 ```bash
 # Add the marketplace (one time)
-claude plugin marketplace add mylittleai/claude-plugins
+claude plugin marketplace add mylittleai/mlai-claude-plugins
 
 # Install a plugin
-claude plugin install mtplan@claude-plugins
+claude plugin install mtplan@mlai-claude-plugins
 ```
 
 ## License

@@ -7,7 +7,7 @@
 STATE_FILE="docs/STATE.md"
 PLAN_FILE="docs/PLAN.md"
 
-# Guard: if state files don't exist, this project doesn't use mtplan.
+# Guard: if state files don't exist, nothing to inject.
 if [ ! -f "$STATE_FILE" ] || [ ! -f "$PLAN_FILE" ]; then
     exit 0
 fi

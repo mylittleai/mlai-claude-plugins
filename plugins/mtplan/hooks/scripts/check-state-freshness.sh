@@ -7,11 +7,6 @@
 STATE_FILE="docs/STATE.md"
 PLAN_FILE="docs/PLAN.md"
 
-# Guard: if PLAN.md doesn't exist, this project doesn't use mtplan. Allow exit.
-if [ ! -f "$PLAN_FILE" ]; then
-    exit 0
-fi
-
 # Check if PLAN.md has unchecked items (work remains).
 unchecked=$(grep -c '^\- \[ \]' "$PLAN_FILE" 2>/dev/null || echo 0)
 if [ "$unchecked" -eq 0 ]; then
@@ -21,8 +16,8 @@ fi
 
 # Work remains. Check STATE.md freshness.
 if [ ! -f "$STATE_FILE" ]; then
-    echo "BLOCKED: docs/STATE.md does not exist but PLAN.md has $unchecked unchecked items."
-    echo "Run /mtplan:save to create STATE.md before ending the session."
+    echo "BLOCKED: docs/STATE.md does not exist but PLAN.md has $unchecked unchecked items." >&2
+    echo "Run /mtplan:save to create STATE.md before ending the session." >&2
     exit 2
 fi
 
@@ -38,9 +33,9 @@ age=$(( now - last_modified ))
 
 # 600 seconds = 10 minutes
 if [ "$age" -gt 600 ]; then
-    echo "BLOCKED: STATE.md was last updated $(( age / 60 )) minutes ago."
-    echo "There are $unchecked unchecked items in PLAN.md."
-    echo "Run /mtplan:save to update STATE.md before ending the session."
+    echo "BLOCKED: STATE.md was last updated $(( age / 60 )) minutes ago." >&2
+    echo "There are $unchecked unchecked items in PLAN.md." >&2
+    echo "Run /mtplan:save to update STATE.md before ending the session." >&2
     exit 2
 fi
 

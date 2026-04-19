@@ -1,5 +1,5 @@
 ---
-name: Multiturn Plan Context Management Protocol
+name: protocol
 description: >
   This skill should be used when the user asks about "context management",
   "multiturn sessions", "context compaction", "plan persistence", "state recovery",

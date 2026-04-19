@@ -6,7 +6,7 @@
 
 STATE_FILE="docs/STATE.md"
 
-# Guard: if STATE.md doesn't exist, output nothing.
+# Guard: if STATE.md doesn't exist, nothing to show.
 if [ ! -f "$STATE_FILE" ]; then
     exit 0
 fi

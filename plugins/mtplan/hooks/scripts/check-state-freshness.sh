@@ -22,7 +22,7 @@ fi
 # Work remains. Check STATE.md freshness.
 if [ ! -f "$STATE_FILE" ]; then
     echo "BLOCKED: docs/STATE.md does not exist but PLAN.md has $unchecked unchecked items."
-    echo "Run /mtplan:handoff to create STATE.md before ending the session."
+    echo "Run /mtplan:save to create STATE.md before ending the session."
     exit 2
 fi
 
@@ -40,7 +40,7 @@ age=$(( now - last_modified ))
 if [ "$age" -gt 600 ]; then
     echo "BLOCKED: STATE.md was last updated $(( age / 60 )) minutes ago."
     echo "There are $unchecked unchecked items in PLAN.md."
-    echo "Run /mtplan:handoff to update STATE.md before ending the session."
+    echo "Run /mtplan:save to update STATE.md before ending the session."
     exit 2
 fi
 

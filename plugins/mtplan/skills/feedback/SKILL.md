@@ -63,7 +63,7 @@ Create the issue body with the following structure:
 ## Context (if opted in)
 - Plan complexity: [X phases, ~Y items]
 - Phase affected: [phase number, no name]
-- Protocol component: [checkpoint / replan / handoff / bootstrap / hook]
+- Protocol component: [checkpoint / replan / save / teardown / bootstrap / hook]
 
 ## Environment
 - Plugin version: [from plugin.json]
@@ -108,7 +108,7 @@ If not authenticated, guide the user: "The `gh` CLI needs to be authenticated. R
 
 File the issue:
 ```bash
-gh issue create --repo mylittleai/claude-plugins --title "[mtplan] [Feedback] [short title]" --body "[approved body]" --label "user-feedback"
+gh issue create --repo mylittleai/mlai-claude-plugins --title "[mtplan] [Feedback] [short title]" --body "[approved body]" --label "user-feedback"
 ```
 
 Note: If the label does not exist, omit it and create the issue without labels.

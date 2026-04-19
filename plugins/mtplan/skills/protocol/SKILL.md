@@ -3,7 +3,7 @@ name: Multiturn Plan Context Management Protocol
 description: >
   This skill should be used when the user asks about "context management",
   "multiturn sessions", "context compaction", "plan persistence", "state recovery",
-  "session handoff", "checkpoint discipline", "two-file program counter",
+  "session save", "checkpoint discipline", "two-file program counter",
   or discusses maintaining state across Claude Code sessions. Also triggers when
   the user references PLAN.md, STATE.md, or bootstrap protocols in the context
   of multi-session work.
@@ -110,7 +110,8 @@ Critical safety rule: dependency changes must land in PLAN.md before any depende
 - `/mtplan:init` — Set up the protocol for a new project (interactive).
 - `/mtplan:checkpoint` — Mark plan items complete and update state.
 - `/mtplan:replan` — Restructure the plan using safe insertion patterns.
-- `/mtplan:handoff` — Update STATE.md for session end.
+- `/mtplan:save` — Update STATE.md for session end.
+- `/mtplan:teardown` — Remove mtplan from a project (archives state files).
 - `/mtplan:feedback` — Report feedback about this protocol.
 
 ## Additional Resources

@@ -9,7 +9,7 @@ When working on multi-phase projects, agentic assistants lose state when their c
 - **Automatic state recovery** — Bootstrap protocol restores plan and execution state on every session start.
 - **Atomic checkpoint discipline** — Enforces immediate plan updates to prevent drift.
 - **Safe replanning** — Structured patterns for modifying plans mid-project.
-- **Session handoff** — Clean state serialization for session boundaries.
+- **Session save** — Clean state serialization for session boundaries.
 - **Blocking safety net** — Stop hook prevents session end with stale state.
 - **Confidential feedback** — Report issues without exposing project details.
 
@@ -54,10 +54,18 @@ Add phases, defer items, or restructure using safe insertion patterns with depen
 ### Ending a Session
 
 ```
-/mtplan:handoff
+/mtplan:save
 ```
 
 Full STATE.md rewrite with everything a fresh agent needs to resume.
+
+### Removing mtplan
+
+```
+/mtplan:teardown
+```
+
+Archive PLAN.md and STATE.md, remove protocol integration from CLAUDE.md and hooks.
 
 ### Reporting Feedback
 

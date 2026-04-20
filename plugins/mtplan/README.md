@@ -51,6 +51,14 @@ Mark plan items complete and update state. Enforces atomic discipline — one it
 
 Add phases, defer items, or restructure using safe insertion patterns with dependency validation.
 
+### Diagnosing Issues
+
+```
+/mtplan:doctor
+```
+
+Check plan/state health and repair common problems. Concise output in the style of `brew doctor`.
+
 ### Ending a Session
 
 ```
@@ -65,7 +73,7 @@ Full STATE.md rewrite with everything a fresh agent needs to resume.
 /mtplan:teardown
 ```
 
-Archive PLAN.md and STATE.md, remove protocol integration from CLAUDE.md and hooks.
+Archive or discard PLAN.md and STATE.md, remove protocol integration from CLAUDE.md and hooks.
 
 ### Reporting Feedback
 
@@ -84,10 +92,9 @@ The protocol uses two files:
 
 CLAUDE.md contains a mandatory bootstrap protocol that reads both files on every session start and after every context compaction.
 
-Four hooks provide defense in depth:
+Three hooks provide defense in depth:
 - **Stop** — Blocks session end if STATE.md is stale and work remains.
 - **SessionStart** — Re-injects state on resume/compact/clear events.
-- **PreCompact** — Re-injects state before context reduction.
 - **UserPromptSubmit** — Displays current phase/status on every prompt.
 
 ## Design Decisions
@@ -100,7 +107,7 @@ All protocol decisions are documented as ADRs in `docs/decisions/`:
 | 0002 | Atomic Checkpoint Discipline |
 | 0003 | CLAUDE.md as Bootstrap Anchor |
 | 0004 | Blocking Stop Hook |
-| 0005 | SessionStart + PreCompact Re-injection |
+| 0005 | SessionStart State Injection |
 | 0006 | Structured Key-Value STATE.md Format |
 | 0007 | Phase Execution Model |
 | 0008 | Replanning Insertion Patterns |

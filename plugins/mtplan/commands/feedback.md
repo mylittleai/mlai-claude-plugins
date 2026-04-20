@@ -20,7 +20,13 @@ Tell the user before collecting:
 1. Collect feedback from $ARGUMENTS or ask.
 2. Classify: bug, improvement, positive, question.
 3. Ask about structural context sharing (abstract only vs anonymous details).
-4. Draft issue body:
+4. If `docs/.mtplan-telemetry` exists, read it and compute summary statistics:
+   - Session count (number of SessionStart entries)
+   - Median and max STATE.md age at UserPromptSubmit (staleness indicator)
+   - Stop events: allowed vs blocked count
+   - Total prompts tracked
+   Ask the user if they want to include these anonymized stats.
+5. Draft issue body:
 
 ```markdown
 ## Type
@@ -33,13 +39,19 @@ Tell the user before collecting:
 - Plan complexity: [X phases, ~Y items]
 - Component: [checkpoint / replan / save / teardown / bootstrap / hook]
 
+## Telemetry (if opted in)
+- Sessions: [N]
+- Prompts tracked: [N]
+- STATE.md age at prompt: median [X]s, max [Y]s
+- Stop: [N] allowed, [M] blocked
+
 ## Environment
 - Plugin version: [from plugin.json]
 ---
 *Submitted via `/mtplan:feedback`. User approved before submission.*
 ```
 
-5. Anonymization check: remove project names, paths, usernames, company names, item content, repo URLs, code quotes.
-6. Show draft. Allow approve, edit, or cancel.
-7. Submit: `gh issue create --repo mylittleai/mlai-claude-plugins --title "[mtplan] [Type] [short title]" --body "[body]"`
-8. Show issue URL.
+6. Anonymization check: remove project names, paths, usernames, company names, item content, repo URLs, code quotes. Telemetry stats are already anonymous (counts and durations only).
+7. Show draft. Allow approve, edit, or cancel.
+8. Submit: `gh issue create --repo mylittleai/mlai-claude-plugins --title "[mtplan] [Type] [short title]" --body "[body]"`
+9. Show issue URL.

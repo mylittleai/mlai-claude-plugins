@@ -12,28 +12,41 @@ Scaffold PLAN.md, STATE.md, CLAUDE.md bootstrap, and project-level hooks.
 
 1. Read existing CLAUDE.md (if any) to avoid overwriting.
 2. Check whether `docs/PLAN.md` or `docs/STATE.md` already exist. Warn and ask before overwriting.
-3. Read `.claude/settings.json` if it exists (hooks must be merged, not replaced).
 
 ## Interactive Setup
 
 If the user provided a description or phase name as $ARGUMENTS, use it. Otherwise ask using AskUserQuestion:
 
 1. **Project description:** one sentence for the Active Contract in STATE.md.
-2. **First phase:** name of the first phase of work.
-3. **Phase items:** list of items in the first phase.
+2. **Project scope:** "How many phases do you see? Name them." Get at least phase names for the full project — later phases can be sparse.
+3. **First phase items:** list of items in the first phase. For later phases, accept whatever level of detail the user provides (full items, rough bullets, or just the phase name).
 
 ## Files to Create
 
 ### docs/PLAN.md
 
+Scaffold ALL phases the user named. The first phase gets full items. Later phases get whatever detail the user provided — items if given, otherwise just the phase header with a precondition or scope note.
+
 ```markdown
 # Plan
 
-## Phase 1: [User's Phase Name]
+## Phase 1: [First Phase Name]
 
-- [ ] [Item 1]
-- [ ] [Item 2]
-- [ ] [Item 3]
+- [ ] 1.1 [Item 1]
+- [ ] 1.2 [Item 2]
+- [ ] 1.3 [Item 3]
+
+## Phase 2: [Second Phase Name]
+
+Precondition: [if any].
+
+- [ ] 2.1 [Item or placeholder from user input]
+
+## Phase N: [Nth Phase Name]
+
+Not fully scoped. Triage at Phase N-1 boundary.
+
+- [ ] N.1 [Item if provided]
 
 ## Deferred Decisions
 
@@ -75,11 +88,14 @@ BEFORE doing any other work:
 2. Read `docs/STATE.md` — resume from where the last session left off.
 3. **Do not proceed until you have verified state from disk.**
 
-### Checkpoint discipline
+### Checkpoint discipline (CRITICAL)
 
-- Check off PLAN.md items immediately upon completion. Never batch.
-- Update STATE.md before and after each item.
-- Bias early: unwritten progress is lost on compaction.
+After completing ANY plan item, IMMEDIATELY run `/mtplan:checkpoint`.
+
+- One item per checkpoint. Never batch multiple items.
+- Do not ask permission — the protocol requires immediate updates.
+- Unwritten progress is lost on compaction. Bias early.
+- During long research or exploration without item completions, update STATE.md with interim findings every ~10 minutes. A crash or compaction with stale state loses context.
 
 ### Phase boundaries
 
@@ -88,80 +104,34 @@ When all items in a phase are checked:
 2. Triage Deferred Decisions.
 3. Execute autonomously once approved.
 
+### Changing the plan
+
+Use `/mtplan:replan` to add phases, defer items, or restructure.
+Never edit PLAN.md checkboxes or phase structure directly.
+
 ### Before ending a session
 
-Update STATE.md with: current phase, status, next action, context for a fresh agent.
+Run `/mtplan:save` to update STATE.md with current phase, status, next action, and context for a fresh agent.
+
+### Available commands
+
+- `/mtplan:checkpoint` — mark items complete (use after EVERY completed item)
+- `/mtplan:replan` — restructure the plan safely
+- `/mtplan:save` — update state before ending session
+- `/mtplan:doctor` — diagnose and repair state issues
 ```
 
-### .claude/settings.json — Hook Wiring
+### Hooks
 
-Read the existing `.claude/settings.json` (create if missing). Merge the following hooks into it, preserving any existing hooks the user has:
-
-```json
-{
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/check-state-freshness.sh",
-            "timeout": 10
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/inject-state.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/inject-state.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/show-status.sh",
-            "timeout": 5
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-If `.claude/settings.json` already has hooks for the same events, append the mtplan entries to the existing arrays — do not replace them.
+Hooks are registered globally via the plugin's `hooks/hooks.json` and fire automatically. They guard on `docs/PLAN.md` existence, so they are no-ops in non-initialized projects. No per-project hook wiring is needed.
 
 ## Post-Setup
 
 1. Confirm all files created and hooks wired.
-2. Display: "Initialized mtplan with Phase 1: [name] ([N] items)."
-3. Suggest: "Use `/mtplan:checkpoint` after completing each item."
+2. Display: "Initialized mtplan with Phase 1: [name] ([N] items). Checkpoints are automatic."
 
 ## Constraints
 
 - Do not create observation-propagation rules.
-- Do not define phase content beyond what the user specified.
+- Do not invent phase items the user did not specify. For later phases where the user gave only a name, use just the phase header with a scope note.
 - Do not assume project structure beyond `docs/`.

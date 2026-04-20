@@ -1,7 +1,8 @@
 #!/bin/bash
 # check-state-freshness.sh
 # Blocking stop hook: prevents session end if STATE.md is stale and work remains.
-# Exit code 2 = block the action. Exit code 0 = allow.
+# Uses JSON stdout with decision:block to signal Claude Code.
+# Touch docs/.mtplan-debug to echo to stderr (visible to user).
 # See ADR-0004: Blocking Stop Hook.
 
 STATE_FILE="docs/STATE.md"
@@ -16,9 +17,8 @@ fi
 
 # Work remains. Check STATE.md freshness.
 if [ ! -f "$STATE_FILE" ]; then
-    echo "BLOCKED: docs/STATE.md does not exist but PLAN.md has $unchecked unchecked items." >&2
-    echo "Run /mtplan:save to create STATE.md before ending the session." >&2
-    exit 2
+    echo "{\"decision\":\"block\",\"reason\":\"docs/STATE.md does not exist but PLAN.md has $unchecked unchecked items. Run /mtplan:save before ending the session.\"}"
+    exit 0
 fi
 
 # Get last modification time (portable: macOS and Linux).
@@ -33,11 +33,16 @@ age=$(( now - last_modified ))
 
 # 600 seconds = 10 minutes
 if [ "$age" -gt 600 ]; then
-    echo "BLOCKED: STATE.md was last updated $(( age / 60 )) minutes ago." >&2
-    echo "There are $unchecked unchecked items in PLAN.md." >&2
-    echo "Run /mtplan:save to update STATE.md before ending the session." >&2
-    exit 2
+    echo "$(date +%H:%M:%S) [Stop] age=${age}s unchecked=$unchecked allowed=no BLOCKED" >> "docs/.mtplan-telemetry"
+    echo "{\"decision\":\"block\",\"reason\":\"STATE.md was last updated $(( age / 60 )) minutes ago with $unchecked unchecked items in PLAN.md. Run /mtplan:save before ending the session.\"}"
+    exit 0
 fi
 
-# STATE.md is fresh. Allow exit.
+# Telemetry: log stop event with freshness.
+echo "$(date +%H:%M:%S) [Stop] age=${age}s unchecked=$unchecked allowed=yes" >> "docs/.mtplan-telemetry"
+
+# Debug.
+if [ -f "docs/.mtplan-debug" ]; then
+    echo "$(date +%H:%M:%S) [Stop] STATE.md fresh (${age}s old), $unchecked unchecked — allowed" >> "docs/.mtplan-debug"
+fi
 exit 0

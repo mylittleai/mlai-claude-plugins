@@ -6,7 +6,10 @@ description: >
   "session save", "checkpoint discipline", "two-file program counter",
   or discusses maintaining state across Claude Code sessions. Also triggers when
   the user references PLAN.md, STATE.md, or bootstrap protocols in the context
-  of multi-session work.
+  of multi-session work. Also triggers on plan modification scenarios: "change the plan",
+  "modify the plan", "restructure the plan", "this item doesn't make sense",
+  "wrong approach", "need to replan", "add a phase", "defer this item",
+  "skip this item", or any challenge to plan content or structure.
 version: 0.1.0
 ---
 

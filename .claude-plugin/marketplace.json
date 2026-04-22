@@ -17,6 +17,18 @@
       "source": "./plugins/mtplan",
       "homepage": "https://mylittle.ai",
       "category": "development"
+    },
+    {
+      "name": "glass",
+      "description": "Browser observation coaching and window orchestration. Teaches Claude effective browser debugging patterns via chrome-devtools MCP.",
+      "version": "0.1.0-alpha.1",
+      "author": {
+        "name": "Rens Troost",
+        "email": "rens@mylittle.ai"
+      },
+      "source": "./plugins/glass",
+      "homepage": "https://mylittle.ai",
+      "category": "development"
     }
   ]
 }

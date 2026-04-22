@@ -1,0 +1,13 @@
+{
+  "name": "mlai-glass",
+  "version": "0.1.0-alpha.1",
+  "description": "Browser observation, terminal interaction, and window orchestration for Claude Code.",
+  "author": {
+    "name": "Rens Troost",
+    "email": "rens@mylittle.ai",
+    "url": "https://mylittle.ai"
+  },
+  "homepage": "https://mylittle.ai",
+  "license": "MIT",
+  "keywords": ["browser", "terminal", "observation", "orchestration", "chrome", "tmux", "mcp"]
+}

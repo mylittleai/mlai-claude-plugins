@@ -8,7 +8,7 @@ description: >
   "screenshot", "console errors", "inspect element", "visual regression",
   "frontend debugging workflow", or when chrome-devtools MCP tools are available
   (take_screenshot, take_snapshot, navigate_page, list_pages, evaluate_script,
-  list_console_messages). This skill is part of the mlai-glass plugin.
+  list_console_messages). This skill is part of the glass plugin.
 
   <example>
   Context: User reports a visual bug

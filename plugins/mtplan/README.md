@@ -1,6 +1,6 @@
-# mlai-mtplan
+# mtplan
 
-A Claude Code plugin for multiturn plan and state management. Implements the Two-File Program Counter pattern for maintaining coherent state across sessions and context compactions.
+Multiturn plan and state management for Claude Code. Implements the Two-File Program Counter pattern for maintaining coherent state across sessions and context compactions.
 
 ## What It Does
 
@@ -15,15 +15,9 @@ When working on multi-phase projects, agentic assistants lose state when their c
 
 ## Installation
 
-### Local testing
-
 ```bash
-claude --plugin-dir /path/to/mlai-mtplan/plugin
+claude plugin install mtplan
 ```
-
-### Project installation
-
-Copy or symlink the `plugin/` directory into your project's `.claude-plugin/` path.
 
 ## Usage
 

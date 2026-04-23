@@ -10,7 +10,7 @@ Install the chrome-devtools-mcp configuration for this project. Idempotent — s
 ## Process
 
 1. Run `${CLAUDE_PLUGIN_ROOT}/bin/glass init` via Bash.
-2. If the binary is not found, tell the user: "The glass binary is not built. Run `make build` in the mlai-glass repo root."
+2. If the binary is not found, tell the user: "The glass binary is not built. Run `make build` in the glass plugin directory."
 3. Report the output to the user.
 4. If all checks passed, tell the user to restart Claude Code so the MCP tools become available.
 5. After restart, chrome-devtools MCP tools (take_screenshot, navigate_page, evaluate_script, etc.) will be available for browser observation.

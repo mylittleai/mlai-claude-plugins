@@ -1,23 +1,39 @@
 # MyLittle.AI Claude Code Plugins
 
-A curated collection of Claude Code plugins by [MyLittle.AI](https://mylittle.ai).
-
-## Available Plugins
-
-| Plugin | Description |
-|--------|-------------|
-| [mtplan](plugins/mtplan/) | Multiturn plan and state management. Two-File Program Counter pattern for coherent state across sessions and context compactions. |
+Small tools for large models. A curated collection of [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugins by [MyLittle.AI](https://mylittle.ai).
 
 ## Installation
 
-```bash
-# Add the marketplace (one time)
-claude plugin marketplace add mylittleai/mlai-claude-plugins
+Add the marketplace once:
 
-# Install a plugin
-claude plugin install mtplan@mlai-claude-plugins
+```bash
+claude plugin marketplace add mylittleai/mlai-claude-plugins
 ```
+
+Then install any plugin:
+
+```bash
+claude plugin install mtplan
+claude plugin install glass
+```
+
+## Plugins
+
+| Plugin | Description |
+|--------|-------------|
+| [mtplan](plugins/mtplan/) | Multiturn plan and state management. Maintains coherent state across sessions and context compactions. |
+| [glass](plugins/glass/) | Browser observation and window orchestration via Chrome DevTools. |
+
+See each plugin's README for usage details.
+
+## Requirements
+
+- [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-See each plugin's directory for its license.
+MIT

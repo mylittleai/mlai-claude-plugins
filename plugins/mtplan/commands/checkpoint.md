@@ -23,6 +23,10 @@ Update PLAN.md checkboxes and STATE.md atomically (ADR-0002).
 - **Monotonic:** never uncheck a `[x]` item — create a new item instead (ADR-0009).
 - **Co-committed:** PLAN.md and STATE.md changes belong in the same commit as the work.
 
+## Relationship to State-Writer Agent
+
+During autonomous execution, checkpoints are performed silently by the state-writer agent to reduce UI noise. This command exists for explicit user-invoked checkpoints and as a fallback when the agent is unavailable.
+
 ## Errors
 
 - No PLAN.md/STATE.md: "Not initialized. Run `/mtplan:init` first."

@@ -38,6 +38,10 @@ A fresh agent reading only CLAUDE.md, PLAN.md, and STATE.md must be able to:
 - Know what to do next without asking.
 - Understand any blockers or context.
 
+## Silent Save via State-Writer
+
+When saving automatically (stop hook trigger, protocol-driven save before session end), compose the full STATE.md content in the main thread, then spawn the state-writer agent with `MODE: save` and the composed content. This avoids visible Read/Write tool calls during automated saves. This command remains for explicit user-invoked saves.
+
 ## Pitfalls
 
 - Vague next_action ("continue working") is useless — write specific steps.

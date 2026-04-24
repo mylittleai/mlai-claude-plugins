@@ -9,7 +9,7 @@
     {
       "name": "mtplan",
       "description": "Multiturn plan and state management. Two-File Program Counter pattern for coherent state across sessions and context compactions.",
-      "version": "0.1.0-alpha.7",
+      "version": "0.1.0-alpha.8",
       "author": {
         "name": "Rens Troost",
         "email": "rens@mylittle.ai"

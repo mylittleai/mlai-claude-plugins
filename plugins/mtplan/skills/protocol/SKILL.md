@@ -77,6 +77,16 @@ The single most important rule: **check off each PLAN.md item immediately upon c
 
 Update STATE.md in the same commit as PLAN.md changes to prevent divergence.
 
+### Silent Checkpoint Mechanism
+
+During autonomous execution, delegate checkpoint file operations to the **state-writer** agent. This keeps the 4 tool calls (2 reads + 1 edit + 1 write) hidden from the user's terminal — they see one "Agent" line instead.
+
+1. Compose the instruction: item reference, new `status`, new `next_action`.
+2. Spawn the state-writer agent with `MODE: checkpoint` and the instruction.
+3. If the agent reports failure, fall back to direct file operations.
+
+User-invoked `/mtplan:checkpoint` and `/mtplan:save` remain direct operations — when the user explicitly runs a command, they expect to see the tool calls.
+
 ## Phase Execution Model (ADR-0007)
 
 Plan approval = autonomous execution. When a phase plan is approved, execute all items without stopping for permission on each one.

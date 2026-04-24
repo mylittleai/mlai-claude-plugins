@@ -87,6 +87,16 @@ During autonomous execution, delegate checkpoint file operations to the **state-
 
 User-invoked `/mtplan:checkpoint` and `/mtplan:save` remain direct operations — when the user explicitly runs a command, they expect to see the tool calls.
 
+### Save Protocol (Session End)
+
+At session end — whether triggered by the stop hook, user ending the session, or explicit `/mtplan:save`:
+
+1. **Audit PLAN.md checkboxes.** Compare what was completed this session against PLAN.md checkbox state. Build a PLAN_UPDATES list of item numbers to check off (e.g., "2.1, 2.3"). If nothing needs updating, PLAN_UPDATES is "none".
+2. **Compose full STATE.md content** in the main thread (format: key-value header + Active Contract + Context for Fresh Agent).
+3. **Delegate to state-writer** with `MODE: save`, `PLAN_UPDATES: [list]`, and `STATE_CONTENT: [composed content]`.
+
+PLAN_UPDATES must always be populated (with item numbers or "none"). Omitting it causes PLAN.md/STATE.md divergence — the exact failure mode that makes fresh sessions re-attempt completed work.
+
 ## Phase Execution Model (ADR-0007)
 
 Plan approval = autonomous execution. When a phase plan is approved, execute all items without stopping for permission on each one.
@@ -122,8 +132,9 @@ Critical safety rule: dependency changes must land in PLAN.md before any depende
 
 - `/mtplan:init` — Set up the protocol for a new project (interactive).
 - `/mtplan:checkpoint` — Mark plan items complete and update state.
+- `/mtplan:status` — Show plan and state, fix any checkbox drift between the two files.
 - `/mtplan:replan` — Restructure the plan using safe insertion patterns.
-- `/mtplan:save` — Update STATE.md for session end.
+- `/mtplan:save` — Audit PLAN.md checkboxes and rewrite STATE.md for session end.
 - `/mtplan:teardown` — Remove mtplan from a project (archives state files).
 - `/mtplan:feedback` — Report feedback about this protocol.
 

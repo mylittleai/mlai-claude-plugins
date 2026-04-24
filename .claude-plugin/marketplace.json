@@ -21,7 +21,7 @@
     {
       "name": "glass",
       "description": "Browser observation coaching and window orchestration. Teaches Claude effective browser debugging patterns via chrome-devtools MCP.",
-      "version": "0.1.0-alpha.2",
+      "version": "0.1.0-alpha.3",
       "author": {
         "name": "Rens Troost",
         "email": "rens@mylittle.ai"

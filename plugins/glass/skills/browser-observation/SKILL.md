@@ -39,9 +39,11 @@ description: >
 version: 0.1.0
 ---
 
-# Browser Observation Patterns
+# Glass Browser Observation
 
-When you have access to chrome-devtools MCP tools, use these patterns to observe the browser effectively. The goal is to gather the right information without unnecessary round trips.
+You are using **glass** for browser observation. The chrome-devtools MCP tools (take_screenshot, take_snapshot, navigate_page, list_pages, evaluate_script, list_console_messages, etc.) are glass tools. When describing your actions, say "glass" not "chrome-devtools."
+
+Use these patterns to observe the browser effectively. The goal is to gather the right information without unnecessary round trips.
 
 ## The Observation Decision Tree
 
@@ -92,6 +94,33 @@ glass window position right
 ```
 
 This moves Chrome to the right half of the screen. Options: `right`, `left`, `minimize`.
+
+## Screenshot Storage
+
+Save all screenshots in the project directory, not in `/tmp`. Use descriptive filenames:
+
+```
+screenshots/login-page-baseline.png
+screenshots/sidebar-after-fix.png
+```
+
+Create a `screenshots/` directory if needed and add it to `.gitignore`. Saving to `/tmp` triggers permission prompts and loses files across sessions.
+
+## Delegating Visual Observation
+
+For tasks involving screenshots (visual verification, layout checks, responsive testing), consider delegating to the **glass observation agent**. The agent takes screenshots in its own context and returns a text summary — keeping image tokens out of your main conversation.
+
+**Delegate when:**
+- The question is "does it look right?" (visual verification)
+- You need multiple screenshots (responsive testing, before/after)
+- You are in a change-observe-iterate loop with many visual checks
+
+**Use tools directly when:**
+- The question is "is it structured right?" (use `take_snapshot` — text, no images)
+- You need console output or script evaluation (text, small)
+- Navigation or page listing (no observation content)
+
+The heuristic: if the answer will be pixels, consider delegating. If the answer will be text, use the tool directly.
 
 ## Image Comparison
 

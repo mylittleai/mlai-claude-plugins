@@ -1,6 +1,6 @@
 ---
 description: Show the current plan and state, fix any checkbox drift
-allowed-tools: Read, Edit
+allowed-tools: Read, Edit, Bash
 ---
 
 # mtplan:status
@@ -15,4 +15,6 @@ Display the full plan and current execution state. Also check for and fix any di
    - Report any corrections inline: "Fixed checkbox drift: checked off items X, Y, Z."
 3. Output PLAN.md content (with any corrections applied).
 4. Output STATE.md header fields (phase, status, next_action, blocked, branch, last_updated).
-5. Stop. Do not offer next steps or ask what to do — the user asked to see the status, not for advice.
+5. **Refresh timestamp.** Run: `printf '<current STATE.md content with updated last_updated>' | mtplan write-state`
+   This prevents the stop hook from triggering a save cycle after a read-only status check.
+6. Stop. Do not offer next steps or ask what to do — the user asked to see the status, not for advice.

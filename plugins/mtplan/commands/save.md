@@ -1,23 +1,22 @@
 ---
 description: Audit PLAN.md checkboxes and rewrite STATE.md before ending a session
 argument-hint: ""
-allowed-tools: Read, Write, Edit
+allowed-tools: Read, Bash
 ---
 
 # Save Session State
 
-Full STATE.md rewrite so a fresh agent can resume without loss. Includes a mandatory PLAN.md checkbox audit to prevent divergence.
+Full STATE.md rewrite so a fresh agent can resume without loss. Do not narrate this process — write silently.
 
 ## Process
 
 1. Read `docs/PLAN.md` and `docs/STATE.md`.
-2. **Audit PLAN.md checkboxes.** Compare what you know was completed this session (from STATE.md status/context and your session knowledge) against the checkbox state in PLAN.md. Build a **PLAN_UPDATES** list:
-   - For each item that is complete but still shows `- [ ]` in PLAN.md, add its number (e.g., "2.1, 2.3, 2.5").
-   - If no items need updating, PLAN_UPDATES is `none`.
-   - Also note any unrecorded Deferred Decisions to add.
-3. **Compose full STATE.md content:**
+2. **Audit PLAN.md checkboxes.** Compare what you know was completed this session against PLAN.md. Identify any items that are complete but still show `- [ ]`. Build a list of item numbers to check off (e.g., `2.1 2.3 2.5`).
+3. **Compose full STATE.md content** in your working memory:
 
 ```
+# STATE.md
+
 phase: [current phase]
 status: [precise completion level]
 next_action: [numbered, actionable steps]
@@ -32,15 +31,13 @@ last_updated: [ISO 8601 timestamp]
 [Completed phases, current progress, failed approaches, relevant paths, user directives, branch state.]
 ```
 
-4. **Delegate to state-writer** with both outputs from steps 2 and 3:
+4. **Write via binary.** Run a single Bash command:
    ```
-   MODE: save
-   PLAN_UPDATES: [list from step 2, or "none"]
-   STATE_CONTENT: [composed content from step 3]
+   printf '<composed content>' | mtplan write-state [item numbers]
    ```
-   Never omit PLAN_UPDATES — pass `none` explicitly if no items need checking off.
-   For user-invoked `/mtplan:save`, you may perform the edits directly instead of delegating.
-5. Display summary: items checked off, STATE.md timestamp, and confirm the stop hook will pass.
+   The binary writes STATE.md and checks off the listed items in PLAN.md atomically.
+
+Do not display a save summary. Do not mention the stop hook. Do not narrate steps.
 
 ## Quality Check
 
@@ -53,4 +50,4 @@ A fresh agent reading only CLAUDE.md, PLAN.md, and STATE.md must be able to:
 
 - Vague next_action ("continue working") is useless — write specific steps.
 - Missing failed approaches means the next session may retry them.
-- Delegating to state-writer without PLAN_UPDATES causes checkbox drift — the audit in step 2 MUST produce the list that step 4 consumes.
+- Forgetting to include item numbers in the write-state call causes checkbox drift.

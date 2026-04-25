@@ -1,6 +1,6 @@
 {
   "name": "glass",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "Browser observation, terminal interaction, and window orchestration for Claude Code.",
   "author": {
     "name": "Rens Troost",

@@ -77,25 +77,21 @@ The single most important rule: **check off each PLAN.md item immediately upon c
 
 Update STATE.md in the same commit as PLAN.md changes to prevent divergence.
 
-### Silent Checkpoint Mechanism
+### Silent State Operations
 
-During autonomous execution, delegate checkpoint file operations to the **state-writer** agent. This keeps the 4 tool calls (2 reads + 1 edit + 1 write) hidden from the user's terminal — they see one "Agent" line instead.
+All state file operations go through the `mtplan` binary. This produces one Bash line in the UI instead of visible Read/Edit/Write tool calls.
 
-1. Compose the instruction: item reference, new `status`, new `next_action`.
-2. Spawn the state-writer agent with `MODE: checkpoint` and the instruction.
-3. If the agent reports failure, fall back to direct file operations.
+**Checkpoint (after completing an item):**
+```
+printf '<updated STATE.md content>' | mtplan write-state <item-numbers>
+```
 
-User-invoked `/mtplan:checkpoint` and `/mtplan:save` remain direct operations — when the user explicitly runs a command, they expect to see the tool calls.
+**Save (session end):**
+1. Audit PLAN.md checkboxes — identify any completed items still showing `- [ ]`.
+2. Compose full STATE.md content (key-value header + Active Contract + Context for Fresh Agent).
+3. Write via binary: `printf '<content>' | mtplan write-state [item numbers]`
 
-### Save Protocol (Session End)
-
-At session end — whether triggered by the stop hook, user ending the session, or explicit `/mtplan:save`:
-
-1. **Audit PLAN.md checkboxes.** Compare what was completed this session against PLAN.md checkbox state. Build a PLAN_UPDATES list of item numbers to check off (e.g., "2.1, 2.3"). If nothing needs updating, PLAN_UPDATES is "none".
-2. **Compose full STATE.md content** in the main thread (format: key-value header + Active Contract + Context for Fresh Agent).
-3. **Delegate to state-writer** with `MODE: save`, `PLAN_UPDATES: [list]`, and `STATE_CONTENT: [composed content]`.
-
-PLAN_UPDATES must always be populated (with item numbers or "none"). Omitting it causes PLAN.md/STATE.md divergence — the exact failure mode that makes fresh sessions re-attempt completed work.
+**Do not narrate state operations to the user.** No "Step 2 — Audit", no "PLAN_UPDATES: none", no "stop hook will pass." State management is invisible plumbing. Report only the results of the user's actual task.
 
 ## Phase Execution Model (ADR-0007)
 

@@ -9,7 +9,7 @@
     {
       "name": "mtplan",
       "description": "Multiturn plan and state management. Two-File Program Counter pattern for coherent state across sessions and context compactions.",
-      "version": "0.1.0-alpha.9",
+      "version": "0.1.0-alpha.10",
       "author": {
         "name": "Rens Troost",
         "email": "rens@mylittle.ai"
@@ -21,7 +21,7 @@
     {
       "name": "glass",
       "description": "Browser observation coaching and window orchestration. Teaches Claude effective browser debugging patterns via chrome-devtools MCP.",
-      "version": "0.1.0-alpha.3",
+      "version": "0.1.0-alpha.4",
       "author": {
         "name": "Rens Troost",
         "email": "rens@mylittle.ai"

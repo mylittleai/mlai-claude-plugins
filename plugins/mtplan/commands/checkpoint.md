@@ -13,7 +13,7 @@ Update PLAN.md checkboxes and STATE.md atomically (ADR-0002).
 1. Read `docs/PLAN.md` and `docs/STATE.md`.
 2. If $ARGUMENTS specifies an item, use it. Otherwise identify the next completed item from STATE.md context.
 3. Compose updated STATE.md content with new `status`, `next_action`, `last_updated`.
-4. Write via binary: `printf '<content>' | mtplan write-state <item-number>`
+4. Write via binary: `printf '<content>' | mtplan write-state <item-number>` — Do NOT use Edit or Write tools on PLAN.md or STATE.md. The binary handles both files atomically in one Bash call.
 5. If all items in the current phase are now checked: notify "Phase [N] complete" and suggest entering plan mode for the next phase with Deferred Decisions triage.
 
 ## Rules

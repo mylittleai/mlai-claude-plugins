@@ -35,7 +35,7 @@ last_updated: [ISO 8601 timestamp]
    ```
    printf '<composed content>' | mtplan write-state [item numbers]
    ```
-   The binary writes STATE.md and checks off the listed items in PLAN.md atomically.
+   The binary writes STATE.md and checks off the listed items in PLAN.md atomically. Do NOT use Edit or Write tools on these files — the binary is the only correct path.
 
 Do not display a save summary. Do not mention the stop hook. Do not narrate steps.
 

@@ -95,7 +95,7 @@ printf '<updated STATE.md content>' | mtplan write-state <item-numbers>
 
 ## Phase Execution Model (ADR-0007)
 
-Plan approval = autonomous execution. When a phase plan is approved, execute all items without stopping for permission on each one.
+Plan approval = autonomous execution. When a phase plan is approved, execute all items without stopping for permission on each one. Do NOT ask "want me to continue?" or "shall I proceed?" between items — the phase-level approval covers every item within it. Only stop for architecture decisions, ambiguous requirements, or explicit user interrupts.
 
 **Phase transitions** trigger plan mode (not individual items). When all items in a phase are checked:
 1. Enter plan mode for the next phase.
